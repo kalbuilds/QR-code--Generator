@@ -1,0 +1,25 @@
+{
+  "name": "qr-code--generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalbuilds/QR-code--Generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kalbuilds/QR-code--Generator/issues"
+  },
+  "homepage": "https://github.com/kalbuilds/QR-code--Generator#readme",
+  "dependencies": {
+    "inquirer": "^14.2.5",
+    "qr-image": "^3.2.0"
+  }
+}
