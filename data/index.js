@@ -12,10 +12,30 @@ inquirer
         var qr_svg = qr.image(URL);
         qr_svg.pipe(fs.createWriteStream('qr_image.png'));
 
-        fs.writeFile("URL.txt", URL, (err) => {
-            if (err) throw err;
-            console.log("The file is saved");
-        })
+
+
+        // fs.appendFile('URL.txt', URL, (err) => {
+        //     if (err) {
+        //         console.error('Error writing to file:', err);
+        //         return;
+        //     }
+        //     console.error('Data successfully appended!');
+        // })
+
+
+
+        fs.writeFile('URL.txt', URL, { flag: 'a' }, (err) => {
+            if (err) {
+                console.error('Error:', err);
+                return;
+            }
+            console.error('Data successfully appended!');
+        });
+
+        // fs.writeFile("URL.txt", URL, (err) => {
+        //     if (err) throw err;
+        //     console.log("The file is saved");
+        // })
     })
     .catch((error) => {
         if (error.isTtyError) {
