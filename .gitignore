@@ -1,30 +1,24 @@
-# Dependencies
-node_modules/
-
-# Environment variables
-.env
-.env.local
-
-# Production builds
-dist/
-build/
-.next/
-
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# OS specific files
-.DS_Store
-Thumbs.db
+node_modules
+dist
+dist-ssr
+*.local
 
-# Editor directories
-.idea/
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-
-# Test coverage
-coverage/
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
