@@ -1,46 +1,62 @@
-import inquirer from "inquirer"
-import qr from "qr-image"
-import fs from "fs";
+import express from "express";
+import cors from "cors";
+import qr from "qr-image";
 
-inquirer
-    .prompt([{
-        message: "Type in your URL",
-        name: "URL"
-    }])
-    .then((answers) => {
-        const URL = answers.URL;
-        var qr_svg = qr.image(URL);
-        qr_svg.pipe(fs.createWriteStream('qr_image.png'));
+const app = express();
+const PORT = 3000;
 
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 
+app.use(express.json());
 
-        // fs.appendFile('URL.txt', URL, (err) => {
-        //     if (err) {
-        //         console.error('Error writing to file:', err);
-        //         return;
-        //     }
-        //     console.error('Data successfully appended!');
-        // })
+// Generate QR Code API
+app.post("/api/generate", (req, res) => {
+    const { text } = req.body;
 
+    if (!text || typeof text !== "string" || !text.trim()) {
+        return res.status(400).json({
+            message: "Please provide a valid URL or text."
+        });
+    }
 
+    if (text.length > 2000) {
+        return res.status(400).json({
+            message: "Input must be 2000 characters or fewer."
+        });
+    }
 
-        fs.writeFile('URL.txt', URL, { flag: 'a' }, (err) => {
-            if (err) {
-                console.error('Error:', err);
-                return;
-            }
-            console.error('Data successfully appended!');
+    try {
+        const qrCode = qr.image(text.trim(), {
+            type: "png",
+            size: 10,
+            margin: 2
         });
 
-        // fs.writeFile("URL.txt", URL, (err) => {
-        //     if (err) throw err;
-        //     console.log("The file is saved");
-        // })
-    })
-    .catch((error) => {
-        if (error.isTtyError) {
+        res.setHeader("Content-Type", "image/png");
 
-        } else {
+        qrCode.on("error", (error) => {
+            console.error("QR generation error:", error);
 
-        }
-    });
+            if (!res.headersSent) {
+                res.status(500).json({
+                    message: "Failed to generate QR code."
+                });
+            }
+        });
+
+        qrCode.pipe(res);
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Something went wrong."
+        });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
