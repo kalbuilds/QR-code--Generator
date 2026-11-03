@@ -3,13 +3,22 @@ import cors from "cors";
 import qr from "qr-image";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: [
+        "http://localhost:5173",
+        process.env.FRONTEND_URL
+    ].filter(Boolean)
 }));
 
 app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.json({
+        message: "QR Code Generator API is running!"
+    });
+});
 
 // Generate QR Code API
 app.post("/api/generate", (req, res) => {
@@ -57,6 +66,6 @@ app.post("/api/generate", (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
 });

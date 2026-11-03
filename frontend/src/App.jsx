@@ -22,7 +22,7 @@ function App() {
       setQrCode(null);
 
       const response = await axios.post(
-        "http://localhost:3000/api/generate",
+        `${import.meta.env.VITE_API_URL}/api/generate`,
         {
           text: text
         },
