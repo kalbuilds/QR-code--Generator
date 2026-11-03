@@ -8,8 +8,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        process.env.FRONTEND_URL
-    ].filter(Boolean)
+        "https://qr-code-generator-snowy-sigma.vercel.app"
+    ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"]
 }));
 
 app.use(express.json());
